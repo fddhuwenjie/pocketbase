@@ -132,6 +132,17 @@ type App interface {
 	// NB! This feature is experimental and currently is expected to work only on UNIX based systems.
 	RestoreBackup(ctx context.Context, name string) error
 
+	// RestoreBackupCollection synchronously restores the records and the local
+	// storage files of a single existing regular (non-view) collection from
+	// the specified backup without restarting the running application.
+	//
+	// All other collections remain untouched and the operation is rejected
+	// (without applying any change) if another backup operation is running,
+	// the backup/collection doesn't exist, the collection schema has changed,
+	// a referenced backup file is missing or the restore would leave dangling
+	// relations in other collections.
+	RestoreBackupCollection(ctx context.Context, backupName, collectionNameOrId string) error
+
 	// Restart restarts (aka. replaces) the current running application process.
 	//
 	// NB! It relies on execve which is supported only on UNIX based systems.

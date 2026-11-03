@@ -22,6 +22,7 @@ func bindBackupApi(app core.App, rg *router.RouterGroup[*core.RequestEvent]) {
 	sub.GET("/{key}", backupDownload) // relies on superuser file token
 	sub.DELETE("/{key}", backupDelete).Bind(RequireSuperuserAuth())
 	sub.POST("/{key}/restore", backupRestore).Bind(RequireSuperuserAuth())
+	sub.POST("/{key}/collections/{collection}/restore", backupCollectionRestore).Bind(RequireSuperuserAuth())
 }
 
 type backupFileInfo struct {
